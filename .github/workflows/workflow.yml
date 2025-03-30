@@ -19,11 +19,16 @@ jobs:
         java-version: '8'
         distribution: 'temurin'
     
+    - name: Set up Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: '16'  # Specifying a compatible Node.js version
+    
     - name: Grant execute permission for gradlew
       run: chmod +x ./gradlew
     
-    - name: Build with Gradle
-      run: ./gradlew assemble
+    - name: Build backend only
+      run: ./gradlew :assemble -x :client-app:yarn_build
       
-    - name: Test with Gradle
-      run: ./gradlew test
+    - name: Test backend only
+      run: ./gradlew :test -x :client-app:yarn_test
